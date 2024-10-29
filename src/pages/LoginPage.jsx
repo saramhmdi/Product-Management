@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 import { useLogin } from "../services/mutations";
-import { getValidationSchema, showToast } from "../utils/functions";
+import { adminValidationForm, showToast } from "../utils/functions";
 import { setCookie } from "../utils/cookie";
 
 function RegistrationPage() {
@@ -18,7 +18,7 @@ function RegistrationPage() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(getValidationSchema()),
+    resolver: yupResolver(adminValidationForm()),
     mode: "onBlur",
   });
 
@@ -30,11 +30,11 @@ function RegistrationPage() {
     mutate(data, {
       onSuccess: (data) => {
         console.log(data);
-        showToast("حساب کاربری شما با موفقیت ایجاد شد", "success");
+        showToast("ورود شما با موفقیت انجام شد", "success");
         setCookie("token", data?.token);
         setTimeout(() => {
           navigate("/");
-        }, 2000);
+        }, 1500);
       },
       onError: (error) => {
         showToast(error.response.data.message, "error");

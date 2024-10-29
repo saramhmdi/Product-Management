@@ -6,7 +6,7 @@ import { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 import { useRegister } from "../services/mutations";
-import { getValidationSchema, showToast } from "../utils/functions";
+import { adminValidationForm, showToast } from "../utils/functions";
 
 function RegistrationPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,13 +17,12 @@ function RegistrationPage() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(getValidationSchema(true)),
+    resolver: yupResolver(adminValidationForm(true)),
+    defaultValues: initialData,
     mode: "onBlur",
   });
 
-  const { isLoading, isPending, mutate } = useRegister();
-  console.log(isPending);
-  console.log(isLoading);
+  const { mutate } = useRegister();
 
   const onSubmit = (data) => {
     const { username, password } = data;
@@ -35,7 +34,7 @@ function RegistrationPage() {
           showToast(data.message, "success");
           setTimeout(() => {
             navigate("/login");
-          }, 2000);
+          }, 1500);
         },
         onError: (error) => {
           showToast(error.response.data.message, "error");

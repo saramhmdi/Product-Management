@@ -3,7 +3,7 @@ import { toast, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { messages } from "../configs/constants";
-const getValidationSchema = (includeConfirmPassword = false) => {
+const adminValidationForm = (includeConfirmPassword = false) => {
   const schema = {
     username: yup
       .string()
@@ -26,6 +26,25 @@ const getValidationSchema = (includeConfirmPassword = false) => {
   return yup.object().shape(schema);
 };
 
+const addEditValidationForm = () => {
+  const schema = {
+    name: yup
+      .string()
+      .min(3, "نام کالا باید حداقل ۳ کاراکتر باشد")
+      .required("نام کالا الزامی است"),
+    price: yup
+      .string()
+      .matches(/^[0-9]+$/, "قیمت کالا باید به عدد وارد شود")
+      .required("قیمت کالا الزامی است"),
+    quantity: yup
+      .string()
+      .matches(/^[0-9]+$/, "تعداد موجودی کالا باید به عدد وارد شود")
+      .matches(/^[0-9]+$/, "نام کاربری باید به انگلیسی وارد شود")
+      .required("تعداد موجودی کالا الزامی است"),
+  };
+  return yup.object().shape(schema);
+};
+
 const showToast = (message, type) => {
   const toastOptions = {
     position: "top-right",
@@ -38,13 +57,13 @@ const showToast = (message, type) => {
     theme: "light",
     transition: Slide,
   };
-  const translatedMessage = messages[message] || message
+  const translatedMessage = messages[message] || message;
   if (type === "success") {
     toast.success(translatedMessage, toastOptions);
-  } else {
+  } else if(type ==="erroe"){
     toast.error(translatedMessage, toastOptions);
+  }  else{
+    toast.info(translatedMessage, toastOptions);
   }
-};
-
-
-export { getValidationSchema , showToast };
+}
+export { adminValidationForm, addEditValidationForm, showToast };
