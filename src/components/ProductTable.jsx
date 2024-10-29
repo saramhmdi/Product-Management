@@ -2,15 +2,19 @@ import { useState } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { TbEdit } from "react-icons/tb";
 import EditProductForm from "./EditProductForm";
+import DeleteProduct from "./DeleteProduct";
 
 function ProductTable({ products }) {
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isShowDelete, setIsShowDelete] = useState(false);
 
-  const handleClick = (product) => {
+  const handleOpenModal = (product, isDelete) => {
     setSelectedProduct(product);
+    setIsShowDelete(isDelete);
   };
 
-  const handleCloseEdit = () => {
+  const handleCloseModal = () => {
+    setIsShowDelete(false);
     setSelectedProduct(null);
   };
 
@@ -32,21 +36,27 @@ function ProductTable({ products }) {
               <td>{product.name}</td>
               <td>{product.quantity}</td>
               <td>{product.id}</td>
-              <td>{product.price}</td>
+              <td>{product.price} تومان</td>
               <td>
-                <RiDeleteBin5Line />
-                <TbEdit onClick={() => handleClick(product)} />
+                <RiDeleteBin5Line
+                  onClick={() => handleOpenModal(product, true)}
+                />
+                <TbEdit onClick={() => handleOpenModal(product, false)} />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {selectedProduct && (
+      {selectedProduct && !isShowDelete && (
         <EditProductForm
-          setIsShowEdit={handleCloseEdit}
+          setIsShowEdit={handleCloseModal}
           product={selectedProduct}
         />
+      )}
+
+      {isShowDelete && (
+        <DeleteProduct product={selectedProduct} onClose={handleCloseModal} />
       )}
     </>
   );

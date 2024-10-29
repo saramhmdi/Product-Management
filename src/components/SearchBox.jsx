@@ -1,10 +1,10 @@
 import React from "react";
 import { CiSearch } from "react-icons/ci";
 
-function SearchBox() {
+function SearchBox({ setSearch }) {
   return (
     <div>
-      <input />
+      <input onChange={(e) => setSearch(e.target.value)} />
       <CiSearch />
       <span>|</span>
       <div>

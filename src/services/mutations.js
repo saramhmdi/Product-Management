@@ -38,18 +38,13 @@ const useEditProduct = (id) => {
 const useDeleteProduct = () => {
   const queryClient = useQueryClient();
 
-  const mutationFn = (data) => api.delete("products", data);
+  const mutationFn = (id) => api.delete(`products/${id}`);
 
   const onSuccess = async () => {
     await queryClient.invalidateQueries({ queryKey: ["all-products"] });
   };
 
-  return useMutation({
-    mutationFn,
-    onSuccess,
-    useCreateProduct,
-    useDeleteProduct,
-  });
+  return useMutation({ mutationFn, onSuccess });
 };
 
-export { useRegister, useLogin, useCreateProduct, useEditProduct };
+export { useRegister, useLogin, useCreateProduct, useEditProduct,useDeleteProduct };

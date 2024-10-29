@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 
 import { addEditValidationForm, showToast } from "../utils/functions";
 import { useCreateProduct } from "../services/mutations";
+
 function AddProductForm({ setIsShowAdd }) {
   const {
     register,
@@ -17,20 +18,24 @@ function AddProductForm({ setIsShowAdd }) {
   });
 
   const { mutate } = useCreateProduct();
-  const onSubmit = (data) => {
-    mutate(data, {
-      onSuccess: () => {
-        reset();
-        showToast("محصول با موفقیت اضافه شد", "success");
-        setTimeout(() => {
-          setIsShowAdd(false);
-        }, 1500);
-      },
-      onError: (error) => {
-        showToast("متاسفانه مشکلی پیش آمده است", "error");
-      },
-    });
+
+  const handleResponse = (successMessage) => {
+    reset();
+    showToast(successMessage, "success");
+    setTimeout(() => {
+      setIsShowAdd(false);
+    }, 1500);
   };
+
+  const onSubmit = (data) => {
+    try {
+      mutate(data);
+      handleResponse("محصول با موفقیت اضافه شد");
+    } catch {
+      showToast("متاسفانه مشکلی پیش آمده است", "error");
+    }
+  };
+
   const closeHandler = (e) => {
     e.preventDefault();
     showToast("شما از ایجاد محصول انصراف داده اید.", "info");
@@ -38,24 +43,27 @@ function AddProductForm({ setIsShowAdd }) {
       setIsShowAdd(false);
     }, 1500);
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <p>ایجاد محصول جدید</p>
-      <label htmlFor="name">نام کالا</label>
-      <input {...register("name")} id="name" />
-      {errors.name && (
-        <p className="text-[#F43F5E] text-[16px]">{errors.name.message}</p>
-      )}
-      <label htmlFor="quantity">تعداد موجودی</label>
-      <input {...register("quantity")} id="quantity" />
-      {errors.quantity && (
-        <p className="text-[#F43F5E] text-[16px]">{errors.quantity.message}</p>
-      )}
-      <label htmlFor="price">قیمت</label>
-      <input {...register("price")} id="price" />
-      {errors.price && (
-        <p className="text-[#F43F5E] text-[16px]">{errors.price.message}</p>
-      )}
+      {["name", "quantity", "price"].map((field) => (
+        <div key={field}>
+          <label htmlFor={field}>
+            {field === "name"
+              ? "نام کالا"
+              : field === "quantity"
+              ? "تعداد موجودی"
+              : "قیمت"}
+          </label>
+          <input {...register(field)} id={field} />
+          {errors[field] && (
+            <p className="text-[#F43F5E] text-[16px]">
+              {errors[field].message}
+            </p>
+          )}
+        </div>
+      ))}
       <div>
         <button type="submit">ایجاد</button>
         <button onClick={closeHandler}>انصراف</button>
