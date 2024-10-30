@@ -1,12 +1,14 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import ProductsPage from "../pages/ProductsPage";
 import LoginPage from "../pages/LoginPage";
 import RegistrationPage from "../pages/RegistrationPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import AuthProvider from "../providers/AuthProvider";
+import { getCookie } from "../utils/cookie";
 
 function Router() {
+  const token = getCookie("token");
+
   return (
     <BrowserRouter>
       <Routes>
@@ -18,9 +20,14 @@ function Router() {
             </AuthProvider>
           }
         />
-        <Route path="/" element={<ProductsPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/registration" element={<RegistrationPage />} />
+        <Route
+          path="/login"
+          element={token ? <Navigate to="/" /> : <LoginPage />}
+        />
+        <Route
+          path="/registration"
+          element={token ? <Navigate to="/" /> : <RegistrationPage />}
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

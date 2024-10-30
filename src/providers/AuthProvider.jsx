@@ -3,7 +3,7 @@ import { getCookie } from "../utils/cookie";
 
 function AuthProvider({ children }) {
   const token = getCookie("token");
-  if (!token) return <Navigate to="/login" />;
+  if (!token) return <Navigate to="/login" replace />;
 
   return children;
 }
