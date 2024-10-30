@@ -20,7 +20,7 @@ function EditProductForm({ setIsShowEdit, product }) {
 
   const { mutate } = useEditProduct(product.id);
 
-  const handleResponse = (successMessage, errorMessage) => {
+  const handleResponse = (successMessage) => {
     showToast(successMessage, "success");
     setTimeout(() => {
       setIsShowEdit(false);
@@ -29,11 +29,10 @@ function EditProductForm({ setIsShowEdit, product }) {
 
   const onSubmit = async (data) => {
     try {
-      await mutate(data);
+       mutate(data);
       reset();
       handleResponse(
         "محصول با موفقیت ویرایش شد",
-        "متاسفانه مشکلی پیش آمده است"
       );
     } catch {
       showToast("متاسفانه مشکلی پیش آمده است", "error");
