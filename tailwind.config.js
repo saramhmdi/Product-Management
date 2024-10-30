@@ -14,9 +14,10 @@ export default {
     },
     borderRadius: {
       '3xl': '40px', 
-      'xl': '15px', 
-
-    }
+      '2xl': '30px', 
+      'xl': '15px',
+      'lg':'10px'
+    },
   },
   plugins: [],
 }

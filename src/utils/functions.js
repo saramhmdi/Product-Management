@@ -60,10 +60,22 @@ const showToast = (message, type) => {
   const translatedMessage = messages[message] || message;
   if (type === "success") {
     toast.success(translatedMessage, toastOptions);
-  } else if(type ==="erroe"){
+  } else if (type === "erroe") {
     toast.error(translatedMessage, toastOptions);
-  }  else{
+  } else {
     toast.info(translatedMessage, toastOptions);
   }
-}
-export { adminValidationForm, addEditValidationForm, showToast };
+};
+const convertToPersianNumbers = (num) => {
+  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+  return String(num)
+    .split("")
+    .map((digit) => persianDigits[digit] || digit)
+    .join("");
+};
+export {
+  adminValidationForm,
+  addEditValidationForm,
+  showToast,
+  convertToPersianNumbers,
+};

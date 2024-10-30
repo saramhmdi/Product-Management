@@ -19,29 +19,44 @@ function ProductTable({ products }) {
   };
 
   return (
-    <>
-      <table>
-        <thead>
+    <div className="flex flex-col h-[60%] ">
+      <table className="min-w-full border  border-[#e4e4e4] rounded-2xl overflow-hidden m-3 table-auto">
+        <thead className="bg-[#F2F2F2] h-[70px]">
           <tr>
-            <th>نام کالا</th>
-            <th>موجودی</th>
-            <th>شناسه کالا</th>
-            <th>قیمت</th>
-            <th>عملیات</th>
+            <th className="font-medium text-[#282828] px-8 py-2 text-right">
+              نام کالا
+            </th>
+            <th className="font-medium text-[#282828] px-4 py-2 text-right">
+              موجودی
+            </th>
+            <th className="font-medium text-[#282828] px-4 py-2 text-right">
+              قیمت
+            </th>
+            <th className="font-medium text-[#282828] px-4 py-2 text-right">
+              شناسه کالا
+            </th>
+            <th className="font-medium text-[#282828] px-4 py-2 text-right"></th>
           </tr>
         </thead>
-        <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.name}</td>
-              <td>{product.quantity}</td>
-              <td>{product.id}</td>
-              <td>{product.price} تومان</td>
-              <td>
+        <tbody className="bg-[#fffff]">
+          {products?.map((product) => (
+            <tr
+              key={product.id}
+              className="hover:bg-[#f9fafb] border border-[#F2F2F2]"
+            >
+              <td className="px-8 py-2">{product.name}</td>
+              <td className="px-4 py-2">{product.quantity}</td>
+              <td className="px-4 py-2">{product.id}</td>
+              <td className="px-4 py-2">{product.price} هزار تومان</td>
+              <td className="flex items-center justify-center space-x-4 py-4">
+                <TbEdit
+                  onClick={() => handleOpenModal(product, false)}
+                  className="text-3xl text-[#4ADE80] cursor-pointer hover:text-[#38B000] transition duration-200"
+                />
                 <RiDeleteBin5Line
                   onClick={() => handleOpenModal(product, true)}
+                  className="text-3xl text-[#F43F5E] cursor-pointer hover:text-[#D80000] transition duration-200"
                 />
-                <TbEdit onClick={() => handleOpenModal(product, false)} />
               </td>
             </tr>
           ))}
@@ -58,7 +73,7 @@ function ProductTable({ products }) {
       {isShowDelete && (
         <DeleteProduct product={selectedProduct} onClose={handleCloseModal} />
       )}
-    </>
+    </div>
   );
 }
 

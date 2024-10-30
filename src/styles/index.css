@@ -34,3 +34,7 @@ input,
 select {
   font-family: inherit;
 }
+.text-shadow {
+  text-shadow: 1px 1px 1px rgba(228, 228, 228, 0.5),
+    2px 2px 2px rgba(228, 228, 228, 0.5);
+}

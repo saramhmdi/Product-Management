@@ -47,4 +47,10 @@ const useDeleteProduct = () => {
   return useMutation({ mutationFn, onSuccess });
 };
 
-export { useRegister, useLogin, useCreateProduct, useEditProduct,useDeleteProduct };
+export {
+  useRegister,
+  useLogin,
+  useCreateProduct,
+  useEditProduct,
+  useDeleteProduct,
+};
