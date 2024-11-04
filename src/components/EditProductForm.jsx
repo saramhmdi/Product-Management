@@ -41,10 +41,7 @@ function EditProductForm({ setIsShowEdit, product }) {
 
   const closeHandler = (e) => {
     e.preventDefault();
-    showToast("شما از ویرایش محصول انصراف داده اید.", "info");
-    setTimeout(() => {
-      setIsShowEdit(false);
-    }, 1500);
+    setIsShowEdit(false);
   };
 
   return (

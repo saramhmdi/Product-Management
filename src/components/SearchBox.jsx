@@ -1,21 +1,46 @@
-import React from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { CiSearch } from "react-icons/ci";
+import debounce from "lodash.debounce";
 
-function SearchBox({ setSearch }) {
+function SearchBox({ setSearch, search }) {
+  const inputRef = useRef(null); // استفاده از useRef برای نگه‌داری ریفرنس ورودی
+  const debouncedSetSearch = useCallback(
+    debounce((value) => {
+      setSearch(value);
+    }, 300),
+    []
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedSetSearch.cancel(); // پاک‌سازی debounce
+    };
+  }, [debouncedSetSearch]);
+
+  const handleInputChange = (e) => {
+    debouncedSetSearch(e.target.value);
+  };
+
+  useEffect(() => {
+    inputRef.current.focus(); // دوباره فوکوس روی ورودی
+  }, [search]); // هر بار که مقدار search تغییر کند، ورودی فوکوس می‌شود
+
   return (
     <div className="flex bg-[#ffffff] w-[1140px] items-center border border-[#E4E4E4] rounded-xl p-2 justify-between">
       <div className="flex bg-[#ffffff] items-center mr-2 gap-2">
         <CiSearch />
         <input
-          className="outline-none "
+          ref={inputRef} // اضافه کردن ref به ورودی
+          className="outline-none"
+          value={search}
           placeholder="جستجو کالا"
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={handleInputChange}
         />
       </div>
-      <div className="flex gap-2 items-center ">
-        <div className="bg-[#E4E4E4] h-[64px] w-[2px] rounded-xl "></div>
+      <div className="flex gap-2 items-center">
+        <div className="bg-[#E4E4E4] h-[64px] w-[2px] rounded-xl"></div>
         <img
-          className="w-[46px] h-[46px] border  border-[#E4E4E480] rounded-[42px]"
+          className="w-[46px] h-[46px] border border-[#E4E4E480] rounded-[42px]"
           src="adminpng.jpg"
           alt="admin-picture"
         />

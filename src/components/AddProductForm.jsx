@@ -18,18 +18,14 @@ function AddProductForm({ setIsShowAdd }) {
   });
   const { mutate } = useCreateProduct();
 
-  const handleResponse = (successMessage) => {
-    reset();
-    showToast(successMessage, "success");
-    setTimeout(() => {
-      setIsShowAdd(false);
-    }, 1500);
-  };
-
   const onSubmit = (data) => {
     try {
       mutate(data);
-      handleResponse("محصول با موفقیت اضافه شد");
+      reset()
+      showToast("محصول با موفقیت اضافه شد", "success");
+      setTimeout(() => {
+        setIsShowAdd(false);
+      }, 1500);
     } catch {
       showToast("متاسفانه مشکلی پیش آمده است", "error");
     }
@@ -38,9 +34,7 @@ function AddProductForm({ setIsShowAdd }) {
   const closeHandler = (e) => {
     e.preventDefault();
     showToast("شما از ایجاد محصول انصراف داده اید.", "info");
-    setTimeout(() => {
-      setIsShowAdd(false);
-    }, 1500);
+    setIsShowAdd(false);
   };
 
   return (

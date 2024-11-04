@@ -12,18 +12,14 @@ function ProductsPage() {
   const [page, setPage] = useState(0);
   const [isShowAdd, setIsShowAdd] = useState(false);
   const [search, setSearch] = useState("");
-  const { isLoading, data, error } = useGetAllProducts(page + 1);
-  const filteredProducts = data?.data.filter((product) =>
-    product.name.toLowerCase().includes(search.toLowerCase())
-  );
-  if (isLoading) return <RingLoader color={"#55A3F0"} />;
+  const { isLoading, data, error } = useGetAllProducts(page + 1, search);
 
   const handlePageChange = ({ selected }) => {
     setPage(selected);
   };
   return (
-    <div className="h-[100vh]">
-      <SearchBox setSearch={setSearch} />
+    <div className="flex flex-col min-h-screen">
+      <SearchBox setSearch={setSearch} search={search} />
       <div className="flex justify-between items-center pt-8 ">
         <div className="flex items-center gap-2 mb-4">
           <img
@@ -40,15 +36,20 @@ function ProductsPage() {
           افزودن محصول
         </button>
       </div>
-      {error ? (
+      {isLoading ? (
+        <div className="flex justify-center items-center h-full">
+          <RingLoader color={"#55A3F0"} />
+        </div>
+      ) : error ? (
         error.response?.data?.message ===
         "Page 1 is out of bounds. There are only 0 pages." ? (
           <p className="text-center">متاسفانه محصولی برای نمایش نیست.</p>
         ) : (
           <img src="network-disconnected-svgrepo-com.svg" alt="error" />
         )
-      ) : null}
-      {filteredProducts && <ProductTable products={filteredProducts} />}
+      ) : (
+        data && <ProductTable isLoading={isLoading} products={data.data} />
+      )}
       {isShowAdd && <AddEditProductForm setIsShowAdd={setIsShowAdd} />}
       <ReactPaginate
         pageCount={data?.totalPages}

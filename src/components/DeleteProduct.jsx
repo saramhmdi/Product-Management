@@ -11,7 +11,6 @@ function DeleteProduct({ product, onClose }) {
       onSuccess: () => {
         showToast("محصول با موفقیت حذف شد", "success");
         setTimeout(() => {
-          showToast("متاسفانه مشکلی پیش آمده است", "error");
           onClose();
         }, 1500);
       },

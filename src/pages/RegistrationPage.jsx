@@ -18,7 +18,6 @@ function RegistrationPage() {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(adminValidationForm(true)),
-    defaultValues: initialData,
     mode: "onBlur",
   });
 
