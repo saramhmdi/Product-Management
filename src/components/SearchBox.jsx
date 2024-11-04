@@ -3,7 +3,7 @@ import { CiSearch } from "react-icons/ci";
 import debounce from "lodash.debounce";
 
 function SearchBox({ setSearch, search }) {
-  const inputRef = useRef(null); // استفاده از useRef برای نگه‌داری ریفرنس ورودی
+  const inputRef = useRef(null); 
   const debouncedSetSearch = useCallback(
     debounce((value) => {
       setSearch(value);
@@ -13,7 +13,7 @@ function SearchBox({ setSearch, search }) {
 
   useEffect(() => {
     return () => {
-      debouncedSetSearch.cancel(); // پاک‌سازی debounce
+      debouncedSetSearch.cancel();
     };
   }, [debouncedSetSearch]);
 
@@ -22,15 +22,15 @@ function SearchBox({ setSearch, search }) {
   };
 
   useEffect(() => {
-    inputRef.current.focus(); // دوباره فوکوس روی ورودی
-  }, [search]); // هر بار که مقدار search تغییر کند، ورودی فوکوس می‌شود
+    inputRef.current.focus();
+  }, [search]);
 
   return (
     <div className="flex bg-[#ffffff] w-[1140px] items-center border border-[#E4E4E4] rounded-xl p-2 justify-between">
       <div className="flex bg-[#ffffff] items-center mr-2 gap-2">
         <CiSearch />
         <input
-          ref={inputRef} // اضافه کردن ref به ورودی
+          ref={inputRef} 
           className="outline-none"
           value={search}
           placeholder="جستجو کالا"
